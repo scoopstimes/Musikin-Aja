@@ -863,7 +863,7 @@
                     </div>
                     <div class="flex-1 min-w-0 flex flex-col justify-center">
                         <h3 class="text-sm font-bold text-white truncate w-full">${pl.name}</h3>
-                        <p class="text-xs text-gray-400 truncate w-full">${pl.songs.length} Songs</p>
+                        <p class="text-xs text-gray-400 truncate w-full">${pl.songs.length} Lagu</p>
                     </div>
                 `;
                 div.onclick = () => openPlaylistView(pl.id);
@@ -885,7 +885,7 @@
             els.playlistView.classList.remove('hidden');
 
             els.viewPlName.textContent = pl.name;
-            els.viewPlCount.textContent = `${pl.songs.length} songs`;
+            els.viewPlCount.textContent = `${pl.songs.length} lagu`;
             const coverImg = pl.songs.length > 0 ? pl.songs[0].imageUrl : 'https://via.placeholder.com/300?text=Playlist';
             els.viewPlCover.src = coverImg;
 
@@ -921,7 +921,7 @@
             if (pl && pl.songs.length > 0) {
                 playSong(pl.songs[0], 0, 'custom_playlist');
             } else {
-                showToast("Playlist is empty!");
+                showToast("Playlist masih kosong!");
             }
         };
 
