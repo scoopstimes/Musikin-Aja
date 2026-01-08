@@ -209,7 +209,7 @@
                      <div class="flex items-center mb-4 md:hidden pt-4 px-2">
                          <button onclick="closePlaylistView()" class="text-gray-400 hover:text-white flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                            Back to Library
+                            Kembali 
                          </button>
                     </div>
 
@@ -349,9 +349,9 @@
                 <div class="w-full md:w-1/2 flex flex-col justify-center mt-6 md:mt-0">
                     <div class="text-center md:text-left mb-8 overflow-hidden w-full">
                         <div id="marquee-wrapper" class="marquee-container w-full">
-                            <h2 id="player-title" class="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 marquee-content w-max">Song Title</h2>
+                            <h2 id="player-title" class="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 marquee-content w-max">Judul Lagu</h2>
                         </div>
-                        <p id="player-artist" class="text-lg text-gray-400 font-medium truncate">Artist Name</p>
+                        <p id="player-artist" class="text-lg text-gray-400 font-medium truncate">Nama Artis</p>
                     </div>
 
                     <div class="w-full mb-8 group">
@@ -591,7 +591,7 @@
                 btn.className = 'w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-sm text-white flex items-center justify-between transition-colors';
                 btn.innerHTML = `
                     <span class="font-bold truncate">${pl.name}</span>
-                    <span class="text-xs text-gray-500">${pl.songs.length} songs</span>
+                    <span class="text-xs text-gray-500">${pl.songs.length} Lagu</span>
                 `;
                 btn.onclick = () => saveToPlaylist(pl.id);
                 els.selectPlaylistList.appendChild(btn);
