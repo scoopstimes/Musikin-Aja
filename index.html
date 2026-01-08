@@ -132,7 +132,7 @@
             <div id="explore-area" class="animate-fade-in pb-10 transition-opacity duration-300">
                 <div id="greeting-container" class="mt-8 mb-8 text-center flex flex-col justify-center">
                     <span class="text-primary-500 text-xs font-bold tracking-[0.3em] uppercase mb-4 animate-pulse">Siap Mendengarkan?</span>
-                    <h2 id="greeting-text" class="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">Menunggu Musik.</h2>
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">Musikin Aja</h2>
 
     <h1 style="font-size: 10px; font-weight: 700;">Dikembangkan oleh Januar Adhi N</h1>
     <span style="font-size: 12px; font-weight: 500;">Informasi: Aplikasi masih dikembangkan. V 0.1.10</span>
@@ -926,7 +926,7 @@ els.btnRed.addEventListener('click', () => {
 
         els.btnDeletePlaylist.onclick = () => {
             if (!currentOpenPlaylistId) return;
-            if (confirm("Delete this playlist?")) {
+            if (confirm("Hapus playlist ini?")) {
                 savedPlaylists = savedPlaylists.filter(p => p.id !== currentOpenPlaylistId);
                 localStorage.setItem('ztune_playlists', JSON.stringify(savedPlaylists));
                 closePlaylistView();
@@ -1286,7 +1286,7 @@ function resetNavVisuals() {
         els.progCont.onclick = (e) => { const dur = els.audio.duration; if(dur) els.audio.currentTime = ((e.clientX - els.progCont.getBoundingClientRect().left) / els.progCont.getBoundingClientRect().width) * dur; };
         function fmtTime(s) { if(isNaN(s)) return "0:00"; const m = Math.floor(s / 60), sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; }
         function showMsg(text, isError) { els.msgArea.textContent = text; els.msgArea.className = `text-center text-sm font-medium py-4 transition-all ${isError ? 'text-red-500' : 'text-gray-400'} ${text ? '' : 'hidden'}`; }
-        function setGreeting() { const h = new Date().getHours(); document.getElementById('greeting-text').textContent = h < 12 ? 'Good Morning.' : h < 18 ? 'Good Afternoon.' : 'Good Evening.'; }
+        function setGreeting() { const h = new Date().getHours(); document.getElementById('greeting-text').textContent = h < 12 ? 'Good Morning.' : h < 18 ? 'Musikin Aja' : 'Good Evening.'; }
         setGreeting();
         </script>
 </body>
