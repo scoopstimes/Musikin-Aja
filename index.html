@@ -582,7 +582,7 @@
         function renderSelectPlaylistList() {
             els.selectPlaylistList.innerHTML = '';
             if(savedPlaylists.length === 0) {
-                 els.selectPlaylistList.innerHTML = '<p class="text-sm text-gray-400 text-center py-4">No playlists yet. Create one in Library.</p>';
+                 els.selectPlaylistList.innerHTML = '<p class="text-sm text-gray-400 text-center py-4">Tidak ada playlist. Buat terlebih dahulu di Bookmark.</p>';
                  return;
             }
 
@@ -638,7 +638,7 @@
                 } else {
                     try {
                         await navigator.clipboard.writeText(shareUrl);
-                        showToast("Link Copied!");
+                        showToast("Link di salin!");
                     } catch(err) {
                         showToast("Failed to Copy");
                     }
