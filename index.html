@@ -132,7 +132,11 @@
             <div id="explore-area" class="animate-fade-in pb-10 transition-opacity duration-300">
                 <div id="greeting-container" class="mt-8 mb-8 text-center flex flex-col justify-center">
                     <span class="text-primary-500 text-xs font-bold tracking-[0.3em] uppercase mb-4 animate-pulse">Siap Mendengarkan?</span>
-                    <h2 id="greeting-text" class="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">Music Awaits.</h2>
+                    <h2 id="greeting-text" class="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">Menunggu Musik.</h2>
+
+    <h1 style="font-size: 10px; font-weight: 700;">Dikembangkan oleh Januar Adhi N</h1>
+    <span style="font-size: 12px; font-weight: 500;">Informasi: Aplikasi masih dikembangkan. V 0.1.10</span>
+
                 </div>
 
                 <div id="quick-picks-container" class="mb-8 hidden">
@@ -389,14 +393,12 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 
     <audio id="audio-player" class="hidden"></audio>
-<div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-    <h1 style="font-size: 20px; font-weight: 700;">Developed by Januar Adhi N</h1>
-    <span style="font-size: 12px; font-weight: 500;">Informasi: Aplikasi masih dikembangkan. V 0.1.10</span>
-</div>
+
     <script>
         const API_SEARCH = 'https://etzy-api.vercel.app/search/youtube?q=';
         const API_PLAY = 'https://etzy-api.vercel.app/downloader/ytplay?q=';
@@ -607,7 +609,7 @@
                     localStorage.setItem('ztune_playlists', JSON.stringify(savedPlaylists));
                     showToast(`Ditambahkan ke ${savedPlaylists[plIndex].name}`);
                 } else {
-                    showToast("Already in playlist");
+                    showToast("Sudah ada di playlist");
                 }
                 els.addToPlaylistModal.classList.add('hidden');
 
