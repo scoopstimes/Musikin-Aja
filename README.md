@@ -1,4 +1,4 @@
-# PlayMusic
+# Musikin Aja
 
 Website pemutar musik yang diinspirasi oleh Spotify. Dengan antarmuka yang sederhana dan mudah digunakan, kamu bisa menikmati lagu favoritmu dengan mudah.
 
@@ -10,12 +10,7 @@ Fitur
 - Integrasi dengan API musik populer
 
 Developer
-- *TheyanzXD*  (Pengembangan)  -    [@TheyanzXD]
-- *Skyzee*     (Author)        -    [@Skyzee]
-```bash
-Kontribusi
-Kamu bisa berkontribusi pada proyek ini dengan membuat pull request atau melaporkan isu yang kamu temukan.
-
+- *Januar*  (Pengembangan)  -    [@januaradhin]
 Lisensi
 Proyek ini dilisensikan di bawah LICENSE.
 
