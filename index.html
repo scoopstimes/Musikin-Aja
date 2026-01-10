@@ -50,7 +50,7 @@
   position: absolute;
   top: 4px;
   left: 0;
-  width: calc(100% / 3);
+  width: calc(100% / 4);
   height: 48px;
   background: none;
   border-radius: 9999px;
@@ -164,7 +164,7 @@
         </button>
     </header>
 
-    <main id="content-area" class="flex-1 w-full max-w-6xl mx-auto flex flex-col relative z-10 overflow-y-auto px-4 md:px-6 pb-20 pt-24 no-scrollbar scroll-smooth"style="margin-top: -100px;">
+    <main id="content-area" class="flex-1 w-full max-w-6xl mx-auto flex flex-col relative z-10 overflow-y-auto px-4 md:px-6 pb-20 pt-0 no-scrollbar scroll-smooth">
 
         <div id="search-container" class="hidden w-full py-4 animate-slide-down shrink-0 transition-all">
             <form id="search-form" class="relative group w-full"style="margin-top: 60px;">
@@ -222,7 +222,7 @@
 
             <div id="results-area" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pb-24 animate-fade-in"style="margin-top: -70px;"></div>
 
-            <div id="library-area" class="hidden pb-24 animate-fade-in w-full">
+<div id="library-area" class="hidden pb-24 w-full">
 
                 <div class="flex items-center gap-6 mb-6 px-2 border-b border-white/10 pb-2">
                     <button id="lib-tab-liked" class="text-white font-bold text-lg border-b-2 border-primary-500 pb-2 transition-all">Daftar Like</button>
@@ -255,14 +255,19 @@
                 </div>
 
                 <div id="playlist-view" class="hidden w-full animate-fade-in absolute top-0 left-0 bg-[#050505] z-20 min-h-full pb-20">
-                     <div class="flex items-center mb-4 md:hidden pt-4 px-2">
+                     <div class="absolute inset-0 z-0 overflow-hidden opacity-30 pointer-events-none">
+                        <img id="view-pl-bg" src="index.html" class="w-full h-full object-cover blur-3xl scale-125">
+                        <div class="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]"></div>
+                    </div>
+
+                    <div class="flex items-center mb-4 md:hidden pt-4 px-2">
                          <button onclick="closePlaylistView()" class="text-gray-400 hover:text-white flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                              
                          </button>
                     </div>
 
-                    <div class="flex flex-col md:flex-row gap-6 mb-8 items-start px-2">
+                    <div class="relative z-10 flex flex-col md:flex-row gap-6 mb-8 items-start px-2">
                         <div class="relative w-40 h-40 md:w-52 md:h-52 rounded-2xl overflow-hidden bg-gray-800 shadow-2xl shrink-0 group">
                             <img id="view-pl-cover" src="index.html" class="w-full h-full object-cover">
                         </div>
@@ -274,6 +279,9 @@
                             <div class="flex items-center gap-4">
                                 <button id="btn-play-playlist" class="w-12 h-12 bg-primary-600 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-primary-600/30">
                                     <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </button>
+                                <button id="btn-edit-playlist" class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-blue-500 hover:border-blue-500/50 transition-all" title="Edit Playlist">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                 </button>
                                 <button id="btn-delete-playlist" class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:border-red-500/50 transition-all" title="Delete Playlist">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -291,7 +299,7 @@
 
             </div>
 
-            <div id="history-area" class="hidden pb-24 animate-fade-in">
+            <div id="history-area" class="hidden pb-24">
                 <div class="flex items-center justify-between mb-6 px-2">
                     <h3 class="text-xl font-bold text-white">Baru Diputar</h3>
                     <button onclick="clearHistory()" class="text-xs text-red-400 hover:text-red-300 font-bold uppercase tracking-wider">Bersihkan</button>
@@ -311,10 +319,23 @@
     <div id="playlist-modal" class="fixed inset-0 z-[80] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center animate-fade-in">
         <div class="bg-[#1e1e21] border border-white/10 p-6 rounded-2xl w-80 glass-player transform scale-100 transition-all animate-modal-in">
             <h3 class="text-lg font-bold mb-4 text-white">Buat Playlist</h3>
-            <input id="playlist-name-input" type="text" placeholder="Nama Playlist..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors mb-6">
+            <input id="playlist-name-input" type="text" placeholder="Nama Playlist..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors mb-4">
+            <input id="playlist-cover-input" type="file" accept="image/*" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors mb-6">
             <div class="flex justify-end gap-3">
                 <button id="close-playlist-modal" class="px-4 py-2 text-sm text-gray-400 hover:text-white font-medium">Batal</button>
                 <button id="save-playlist-btn" class="px-4 py-2 text-sm bg-white text-black font-bold rounded-full hover:scale-105 transition-transform">Buat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-playlist-modal" class="fixed inset-0 z-[80] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center animate-fade-in">
+        <div class="bg-[#1e1e21] border border-white/10 p-6 rounded-2xl w-80 glass-player transform scale-100 transition-all animate-modal-in">
+            <h3 class="text-lg font-bold mb-4 text-white">Edit Playlist</h3>
+            <input id="edit-playlist-name-input" type="text" placeholder="Nama Playlist..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors mb-4">
+            <input id="edit-playlist-cover-input" type="file" accept="image/*" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors mb-6">
+            <div class="flex justify-end gap-3">
+                <button id="close-edit-playlist-modal" class="px-4 py-2 text-sm text-gray-400 hover:text-white font-medium">Batal</button>
+                <button id="save-edit-playlist-btn" class="px-4 py-2 text-sm bg-white text-black font-bold rounded-full hover:scale-105 transition-transform">Simpan</button>
             </div>
         </div>
     </div>
@@ -450,12 +471,12 @@
 <!-- Bottom Navigation -->
 <div class="fixed bottom-0 left-0 right-0 z-50">
   <div class="mx-auto max-w-xl bg-black/80 backdrop-blur-xl border-t border-white/10 px-4 py-2">
-    <div class="relative grid grid-cols-3 gap-2">
+    <div class="relative grid grid-cols-4 gap-2">
 
       <!-- INDICATOR -->
       <div id="nav-indicator"></div>
 
-<button id="tab-search" class="nav-tab active" data-index="0">
+<button id="tab-home" class="nav-tab active" data-index="0">
   <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
     viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round"
@@ -464,7 +485,16 @@
   <span class="nav-text">Home</span>
 </button>
 
-      <button id="tab-library" class="nav-tab" data-index="1">
+      <button id="tab-search" class="nav-tab" data-index="1">
+        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <span class="nav-text">Search</span>
+      </button>
+
+      <button id="tab-library" class="nav-tab" data-index="2">
         <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
           viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -473,7 +503,7 @@
         <span class="nav-text">Library</span>
       </button>
 
-      <button id="tab-history" class="nav-tab" data-index="2">
+      <button id="tab-history" class="nav-tab" data-index="3">
         <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
           viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -514,6 +544,7 @@
             msgArea: document.getElementById('message-area'),
 
             // Tabs
+            tabHome: document.getElementById('tab-home'),
             tabSearch: document.getElementById('tab-search'),
             tabLibrary: document.getElementById('tab-library'),
             libTabLiked: document.getElementById('lib-tab-liked'),
@@ -531,16 +562,26 @@
             // Playlist View Elements
             playlistView: document.getElementById('playlist-view'),
             viewPlCover: document.getElementById('view-pl-cover'),
+            viewPlBg: document.getElementById('view-pl-bg'),
             viewPlName: document.getElementById('view-pl-name'),
             viewPlCount: document.getElementById('view-pl-count'),
             viewPlSongs: document.getElementById('view-pl-songs'),
             emptyViewPlMsg: document.getElementById('empty-view-pl-msg'),
             btnPlayPlaylist: document.getElementById('btn-play-playlist'),
+            btnEditPlaylist: document.getElementById('btn-edit-playlist'),
             btnDeletePlaylist: document.getElementById('btn-delete-playlist'),
+
+            // Modal Edit
+            editPlaylistModal: document.getElementById('edit-playlist-modal'),
+            editPlaylistNameInput: document.getElementById('edit-playlist-name-input'),
+            editPlaylistCoverInput: document.getElementById('edit-playlist-cover-input'),
+            closeEditPlaylistModal: document.getElementById('close-edit-playlist-modal'),
+            saveEditPlaylistBtn: document.getElementById('save-edit-playlist-btn'),
 
             // Modal Create
             playlistModal: document.getElementById('playlist-modal'),
             playlistNameInput: document.getElementById('playlist-name-input'),
+            playlistCoverInput: document.getElementById('playlist-cover-input'),
             closePlaylistModal: document.getElementById('close-playlist-modal'),
             savePlaylistBtn: document.getElementById('save-playlist-btn'),
 
@@ -605,7 +646,7 @@
 
         let currentSongIndex = -1;
         let isSearchVisible = false;
-        let currentContext = 'search'; 
+        let currentContext = 'home'; 
         let currentLibTab = 'liked';
 
         let activeLoadingBtn = null;
@@ -620,6 +661,8 @@
             initQuickPicks();
             checkUrlParams();
             initPlaylists();
+            els.searchToggle.style.display = 'none';
+            els.btnRed.style.display = 'flex';
 
             // AUTO INIT LIBRARY UI
             // This ensures Liked Songs are rendered even if empty
@@ -792,7 +835,7 @@ setActiveTab(0);
         // --- SWIPE LOGIC ---
         let touchStartX = 0;
         let touchEndX = 0;
-        const tabsOrder = ['search', 'library', 'history'];
+        const tabsOrder = ['home', 'search', 'library', 'history'];
 
         els.contentArea.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
@@ -876,6 +919,7 @@ const activeClass =
 
 const inactiveClass =
   `${baseClass} text-gray-400 hover:text-white`;
+            els.tabHome.className = tab === 'home' ? activeClass : inactiveClass;
             els.tabSearch.className = tab === 'search' ? activeClass : inactiveClass;
             els.tabLibrary.className = tab === 'library' ? activeClass : inactiveClass;
             els.tabHistory.className = tab === 'history' ? activeClass : inactiveClass;
@@ -884,29 +928,52 @@ const inactiveClass =
             els.historyArea.classList.add('hidden');
             els.exploreArea.classList.add('hidden');
             els.resultsArea.classList.add('hidden');
+            els.searchContainer.classList.add('hidden');
 
             if(!els.playlistView.classList.contains('hidden')) {
                 els.playlistView.classList.add('hidden');
                 currentOpenPlaylistId = null;
             }
 
-            if (tab === 'search') {
+            if (tab === 'home') {
+                els.exploreArea.classList.remove('hidden');
+                els.exploreArea.style.display = 'block';
+                els.resultsArea.classList.add('hidden');
+                els.searchContainer.classList.add('hidden');
+                isSearchVisible = false;
+                els.searchToggle.style.display = 'none';
+                els.btnRed.style.display = 'flex';
+                updateNavState(false);
+                els.contentArea.scrollTop = 0;
+            } else if (tab === 'search') {
+                els.exploreArea.classList.add('hidden');
+                els.exploreArea.style.display = 'none';
+                els.resultsArea.classList.add('hidden');
+                els.searchContainer.classList.remove('hidden');
+                isSearchVisible = true;
+                els.searchToggle.style.display = 'none';
+                els.btnRed.style.display = 'none';
                 if (searchResults.length > 0) {
-                    els.resultsArea.classList.remove('hidden');
-                    updateNavState(true);
-                } else {
-                    if(!isSearchVisible) els.exploreArea.classList.remove('hidden');
-                    updateNavState(false);
+                    displayResults(searchResults);
+                    els.resultsArea.style.display = 'block';
                 }
+                updateNavState(searchResults.length > 0);
+                els.contentArea.scrollTop = 0;
             } else if (tab === 'library') {
                 els.libraryArea.classList.remove('hidden');
+                els.exploreArea.style.display = 'none';
+                els.resultsArea.style.display = 'none';
                 resetNavVisuals();
                 if (currentLibTab === 'liked') showLikedSongs();
                 else showPlaylists();
+                els.contentArea.scrollTop = 0;
             } else if (tab === 'history') {
                 els.historyArea.classList.remove('hidden');
+                els.exploreArea.style.display = 'none';
+                els.resultsArea.style.display = 'none';
                 resetNavVisuals();
                 renderHistory();
+                els.contentArea.scrollTop = 0;
             }
 
             if(isSearchVisible && tab !== 'search') {
@@ -959,7 +1026,7 @@ const inactiveClass =
                 const div = document.createElement('div');
                 div.className = 'bg-white/5 backdrop-blur-sm border border-white/5 hover:bg-white/10 p-3 rounded-xl flex flex-col gap-3 cursor-pointer transition-all duration-300 group';
 
-                const coverImg = pl.songs.length > 0 ? pl.songs[0].imageUrl : 'https://via.placeholder.com/300?text=Playlist';
+                const coverImg = pl.cover || (pl.songs.length > 0 ? pl.songs[0].imageUrl : 'https://via.placeholder.com/300?text=Playlist');
 
                 div.innerHTML = `
                     <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-800 shadow-lg">
@@ -993,14 +1060,16 @@ const inactiveClass =
 
             els.viewPlName.textContent = pl.name;
             els.viewPlCount.textContent = `${pl.songs.length} lagu`;
-            const coverImg = pl.songs.length > 0 ? pl.songs[0].imageUrl : 'https://via.placeholder.com/300?text=Playlist';
+            const coverImg = pl.cover || (pl.songs.length > 0 ? pl.songs[0].imageUrl : 'https://via.placeholder.com/300?text=Playlist');
             els.viewPlCover.src = coverImg;
+            els.viewPlBg.src = coverImg;
 
             els.viewPlSongs.innerHTML = '';
             if (pl.songs.length === 0) {
                 els.emptyViewPlMsg.classList.remove('hidden');
             } else {
                 els.emptyViewPlMsg.classList.add('hidden');
+                els.viewPlSongs.className = 'flex flex-col gap-0';
                 pl.songs.forEach((item, index) => {
                     const div = createSongElement(item, index, 'custom_playlist');
                     els.viewPlSongs.appendChild(div);
@@ -1043,6 +1112,16 @@ const inactiveClass =
             }
         };
 
+        els.btnEditPlaylist.onclick = () => {
+            if (!currentOpenPlaylistId) return;
+            const pl = savedPlaylists.find(p => p.id === currentOpenPlaylistId);
+            if (!pl) return;
+            els.editPlaylistNameInput.value = pl.name;
+            els.editPlaylistCoverInput.value = '';
+            els.editPlaylistModal.classList.remove('hidden');
+            els.editPlaylistNameInput.focus();
+        };
+
         els.btnCreatePlaylist.onclick = () => {
             els.playlistModal.classList.remove('hidden');
             els.playlistNameInput.focus();
@@ -1051,14 +1130,25 @@ const inactiveClass =
         els.closePlaylistModal.onclick = () => {
             els.playlistModal.classList.add('hidden');
             els.playlistNameInput.value = '';
+            els.playlistCoverInput.value = '';
         };
 
-        els.savePlaylistBtn.onclick = () => {
+        els.savePlaylistBtn.onclick = async () => {
             const name = els.playlistNameInput.value.trim();
             if (name) {
+                let cover = null;
+                if (els.playlistCoverInput.files.length > 0) {
+                    const file = els.playlistCoverInput.files[0];
+                    cover = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
+                }
                 const newPlaylist = {
                     id: Date.now(),
                     name: name,
+                    cover: cover,
                     createdAt: new Date().toISOString(),
                     songs: []
                 };
@@ -1068,7 +1158,40 @@ const inactiveClass =
                 renderPlaylists();
                 els.playlistModal.classList.add('hidden');
                 els.playlistNameInput.value = '';
+                els.playlistCoverInput.value = '';
                 showToast(`Playlist "${name}" dibuat!`);
+            }
+        };
+
+        els.closeEditPlaylistModal.onclick = () => {
+            els.editPlaylistModal.classList.add('hidden');
+            els.editPlaylistNameInput.value = '';
+            els.editPlaylistCoverInput.value = '';
+        };
+
+        els.saveEditPlaylistBtn.onclick = async () => {
+            const name = els.editPlaylistNameInput.value.trim();
+            if (name && currentOpenPlaylistId) {
+                const pl = savedPlaylists.find(p => p.id === currentOpenPlaylistId);
+                if (!pl) return;
+                let cover = pl.cover;
+                if (els.editPlaylistCoverInput.files.length > 0) {
+                    const file = els.editPlaylistCoverInput.files[0];
+                    cover = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
+                }
+                pl.name = name;
+                pl.cover = cover;
+                localStorage.setItem('ztune_playlists', JSON.stringify(savedPlaylists));
+                openPlaylistView(currentOpenPlaylistId); // refresh view
+                renderPlaylists();
+                els.editPlaylistModal.classList.add('hidden');
+                els.editPlaylistNameInput.value = '';
+                els.editPlaylistCoverInput.value = '';
+                showToast(`Playlist diperbarui!`);
             }
         };
 function resetNavVisuals() {
@@ -1080,8 +1203,10 @@ function resetNavVisuals() {
             els.btnGreen.classList.add('w-3', 'h-3', 'cursor-default');
             els.btnRed.querySelector('svg').classList.add('opacity-0');
             els.btnGreen.querySelector('svg').classList.add('opacity-0');
+            els.btnRed.style.display = 'flex';
         }
 
+        els.tabHome.onclick = () => switchTab('home');
         els.tabSearch.onclick = () => switchTab('search');
         els.tabLibrary.onclick = () => switchTab('library');
         els.tabHistory.onclick = () => switchTab('history');
@@ -1145,7 +1270,8 @@ function resetNavVisuals() {
                 if(data.status && data.result && data.result.length > 0) {
                     const valid = data.result.filter(i => i.title && i.link).slice(0, 20);
                     searchResults = valid; 
-                    playlist = valid; 
+                    playlist = valid;
+                    currentSongIndex = -1; // Reset since new search
                     displayResults(valid);
                 } else {
                     showMsg('No results found.', true);
@@ -1179,34 +1305,111 @@ function resetNavVisuals() {
             els.historyArea.classList.add('hidden');
             els.resultsArea.classList.remove('hidden');
             els.resultsArea.innerHTML = '';
+            if (currentContext === 'search') {
+                els.resultsArea.className = 'flex flex-col gap-2 pb-24';
+            } else {
+                els.resultsArea.className = 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pb-24';
+            }
             updateNavState(true);
 
             items.forEach((item, index) => {
-                const div = createSongElement(item, index, 'search');
+                const div = createSongElement(item, index, currentContext);
                 els.resultsArea.appendChild(div);
             });
         }
 
         function createSongElement(item, index, context) {
-            const div = document.createElement('div');
-            // FIX: Removed transparency issue by using bg-transparent and hover effects properly
-            div.className = 'bg-transparent hover:bg-white/10 hover:backdrop-blur-md border border-transparent hover:border-white/5 p-3 rounded-xl flex flex-col gap-3 cursor-pointer transition-all duration-300 group';
-            div.innerHTML = `
-                <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-800 shadow-lg">
-                    <img src="${item.imageUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black shadow-xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
-                            <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            if (context === 'search' || context === 'history' || context === 'library' || context === 'custom_playlist') {
+                // List style like Spotify
+                const div = document.createElement('div');
+                div.className = 'flex items-center p-3 hover:bg-white/10 rounded-lg cursor-pointer transition-all group';
+                if (currentSongIndex !== -1 && playlist[currentSongIndex] && playlist[currentSongIndex].link === item.link) {
+                    div.classList.add('bg-purple-500/20', 'border-l-4', 'border-purple-500');
+                }
+                div.innerHTML = `
+                    <img src="${item.imageUrl}" class="w-12 h-12 rounded mr-4 flex-shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <h3 class="text-white font-medium truncate">${item.title}</h3>
+                        <p class="text-gray-400 text-sm truncate">${item.channel || 'Artist'}</p>
+                    </div>
+                    <button class="opacity-0 group-hover:opacity-100 transition-opacity w-10 h-10 bg-white rounded-full flex items-center justify-center text-black ml-4">
+                        <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                `;
+                div.onclick = (e) => {
+                    if (!e.target.closest('button')) {
+                        if (currentSongIndex === index && currentContext === context) {
+                            // Open player overlay if same song
+                            openPlayerOverlay();
+                        } else {
+                            playSong(item, index, context);
+                        }
+                    }
+                };
+                div.querySelector('button').onclick = () => playSong(item, index, context);
+
+                // Swipe to delete for playlist
+                if (context === 'custom_playlist') {
+                    let startX = 0;
+                    let currentX = 0;
+                    let isSwiping = false;
+                    div.addEventListener('touchstart', (e) => {
+                        startX = e.touches[0].clientX;
+                        isSwiping = false;
+                    });
+                    div.addEventListener('touchmove', (e) => {
+                        if (!isSwiping) {
+                            const diff = e.touches[0].clientX - startX;
+                            if (Math.abs(diff) > 10) { // Start swiping after 10px
+                                isSwiping = true;
+                                e.preventDefault(); // Prevent scroll
+                            }
+                        }
+                        if (isSwiping) {
+                            currentX = e.touches[0].clientX;
+                            const diff = currentX - startX;
+                            if (diff > 0) { // Swipe right
+                                div.style.transform = `translateX(${Math.min(diff, 100)}px)`; // Max 100px
+                                div.style.backgroundColor = `rgba(239, 68, 68, ${Math.min(diff / 100, 0.5)})`; // Red background
+                            }
+                        }
+                    });
+                    div.addEventListener('touchend', (e) => {
+                        const diff = currentX - startX;
+                        if (diff > 50) { // Lower threshold
+                            deleteFromPlaylist(index);
+                        } else {
+                            div.style.transition = 'transform 0.3s ease, background-color 0.3s ease';
+                            div.style.transform = '';
+                            div.style.backgroundColor = '';
+                            setTimeout(() => {
+                                div.style.transition = '';
+                            }, 300);
+                        }
+                    });
+                }
+                return div;
+            } else {
+                // Grid style
+                const div = document.createElement('div');
+                div.className = 'bg-transparent hover:bg-white/10 hover:backdrop-blur-md border border-transparent hover:border-white/5 p-3 rounded-xl flex flex-col gap-3 cursor-pointer transition-all duration-300 group';
+                div.innerHTML = `
+                    <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-800 shadow-lg">
+                        <img src="${item.imageUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black shadow-xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
+                                <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex-1 min-w-0 flex flex-col justify-center">
-                    <h3 class="text-sm font-bold text-white truncate w-full">${item.title}</h3>
-                    <p class="text-xs text-gray-400 truncate w-full">${item.channel || 'Artist'}</p>
-                </div>
-            `;
-            div.onclick = () => playSong(item, index, context);
-            return div;
+                    <div class="flex-1 min-w-0 flex flex-col justify-center">
+                        <h3 class="text-sm font-bold text-white truncate w-full">${item.title}</h3>
+                        <p class="text-xs text-gray-400 truncate w-full">${item.channel || 'Artist'}</p>
+                    </div>
+                `;
+                div.onclick = () => playSong(item, index, context);
+                return div;
+            }
         }
 
         function showToast(msg) {
@@ -1264,6 +1467,7 @@ function resetNavVisuals() {
                 // Hide Empty Message, Show Grid
                 els.emptyLibraryMsg.classList.add('hidden');
                 els.libraryList.classList.remove('hidden'); 
+                els.libraryList.className = 'flex flex-col gap-2 pb-24';
 
                 favorites.forEach((item, index) => {
                     els.libraryList.appendChild(createSongElement(item, index, 'library'));
@@ -1278,6 +1482,7 @@ function resetNavVisuals() {
                 return;
             }
             els.emptyHistoryMsg.classList.add('hidden');
+            els.historyList.className = 'flex flex-col gap-2 pb-24';
             history.forEach((item, index) => {
                 els.historyList.appendChild(createSongElement(item, index, 'history'));
             });
@@ -1312,6 +1517,22 @@ function resetNavVisuals() {
             checkMarquee(item.title);
             updateLikeButtonState(item);
 
+            if(currentContext === 'search') displayResults(searchResults);
+            else if(currentContext === 'history') renderHistory();
+            else if(currentContext === 'library') renderLibrary();
+            else if(currentContext === 'custom_playlist') {
+                // Re-render playlist view songs
+                const pl = savedPlaylists.find(p => p.id === currentOpenPlaylistId);
+                if(pl) {
+                    els.viewPlSongs.innerHTML = '';
+                    els.viewPlSongs.className = 'flex flex-col gap-0';
+                    pl.songs.forEach((item, index) => {
+                        const div = createSongElement(item, index, 'custom_playlist');
+                        els.viewPlSongs.appendChild(div);
+                    });
+                }
+            }
+
             try {
                 const res = await fetch(API_PLAY + encodeURIComponent(item.link));
                 const data = await res.json();
@@ -1335,6 +1556,7 @@ function resetNavVisuals() {
 
                     els.menuDownloadBtn.href = data.result.downloadUrl;
 
+                    els.audio.pause(); // Pause before changing src
                     els.audio.src = data.result.downloadUrl;
                     els.audio.volume = els.volSlider.value;
                     playAudio();
@@ -1394,7 +1616,15 @@ function resetNavVisuals() {
         els.progCont.onclick = (e) => { const dur = els.audio.duration; if(dur) els.audio.currentTime = ((e.clientX - els.progCont.getBoundingClientRect().left) / els.progCont.getBoundingClientRect().width) * dur; };
         function fmtTime(s) { if(isNaN(s)) return "0:00"; const m = Math.floor(s / 60), sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; }
         function showMsg(text, isError) { els.msgArea.textContent = text; els.msgArea.className = `text-center text-sm font-medium py-4 transition-all ${isError ? 'text-red-500' : 'text-gray-400'} ${text ? '' : 'hidden'}`; }
-        function setGreeting() { const h = new Date().getHours(); document.getElementById('greeting-text').textContent = h < 12 ? 'Good Morning.' : h < 18 ? 'Musikin Aja' : 'Good Evening.'; }
+        function deleteFromPlaylist(songIndex) {
+            const pl = savedPlaylists.find(p => p.id === currentOpenPlaylistId);
+            if(pl && pl.songs[songIndex]) {
+                pl.songs.splice(songIndex, 1);
+                localStorage.setItem('ztune_playlists', JSON.stringify(savedPlaylists));
+                openPlaylistView(currentOpenPlaylistId);
+                showToast('Lagu dihapus dari playlist');
+            }
+        }
         setGreeting();
         </script>
 </body>
