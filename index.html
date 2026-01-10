@@ -664,6 +664,7 @@
 
         let currentSongIndex = -1;
         let currentPlayingLink = null;
+        let currentPlayingItem = null;
         let isSearching = false;
         let isSearchVisible = false;
         let currentContext = 'home'; 
@@ -955,6 +956,8 @@ const inactiveClass =
                 els.btnRed.style.display = 'flex';
                 updateNavState(false);
                 els.contentArea.scrollTop = 0;
+                els.contentArea.style.paddingLeft = '';
+                els.contentArea.style.paddingRight = '';
             } else if (tab === 'search') {
                 els.exploreArea.classList.add('hidden');
                 els.exploreArea.style.display = 'none';
@@ -969,6 +972,8 @@ const inactiveClass =
                 }
                 updateNavState(searchResults.length > 0);
                 els.contentArea.scrollTop = 0;
+                els.contentArea.style.paddingLeft = '0px';
+                els.contentArea.style.paddingRight = '0px';
             } else if (tab === 'library') {
                 els.libraryArea.classList.remove('hidden');
                 els.libraryHeader.classList.remove('hidden');
@@ -978,6 +983,8 @@ const inactiveClass =
                 if (currentLibTab === 'liked') showLikedSongs();
                 else showPlaylists();
                 els.contentArea.scrollTop = 0;
+                els.contentArea.style.paddingLeft = '5px';
+                els.contentArea.style.paddingRight = '5px';
             } else if (tab === 'history') {
                 els.historyArea.classList.remove('hidden');
                 els.historyHeader.classList.remove('hidden');
@@ -986,6 +993,8 @@ const inactiveClass =
                 resetNavVisuals();
                 renderHistory();
                 els.contentArea.scrollTop = 0;
+                els.contentArea.style.paddingLeft = '0px';
+                els.contentArea.style.paddingRight = '0px';
             }
 
             if(isSearchVisible && tab !== 'search') {
@@ -1366,8 +1375,8 @@ function resetNavVisuals() {
             if (context === 'search' || context === 'history' || context === 'library' || context === 'custom_playlist' || context === 'quickpicks') {
                 // List style like Spotify
                 const div = document.createElement('div');
-                div.className = 'flex items-center px-6 py-3 hover:bg-white/10 rounded-lg cursor-pointer transition-all group';
-                if (currentPlayingLink && currentPlayingLink === item.link) {
+                div.className = 'flex items-center px-2 py-3 hover:bg-white/10 rounded-lg cursor-pointer transition-all group';
+                if (currentPlayingItem && currentPlayingItem.title === item.title && currentPlayingItem.channel === item.channel) {
                     div.classList.add('bg-purple-500/20', 'border-l-4', 'border-purple-500');
                 }
                 div.innerHTML = `
@@ -1376,21 +1385,15 @@ function resetNavVisuals() {
                         <h3 class="text-white font-medium truncate">${item.title}</h3>
                         <p class="text-gray-400 text-sm truncate">${item.channel || 'Artist'}</p>
                     </div>
-                    <button class="opacity-0 group-hover:opacity-100 transition-opacity w-10 h-10 bg-white rounded-full flex items-center justify-center text-black ml-2">
-                        <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    </button>
                 `;
                 div.onclick = (e) => {
-                    if (!e.target.closest('button')) {
-                        if (currentSongIndex === index && currentContext === context) {
-                            // Open player overlay if same song
-                            openPlayerOverlay();
-                        } else {
-                            playSong(item, index, context);
-                        }
+                    if (currentSongIndex === index && currentContext === context) {
+                        // Open player overlay if same song
+                        openPlayerOverlay();
+                    } else {
+                        playSong(item, index, context);
                     }
                 };
-                div.querySelector('button').onclick = () => playSong(item, index, context);
 
                 // Swipe to delete for playlist
                 if (context === 'custom_playlist') {
@@ -1432,6 +1435,9 @@ function resetNavVisuals() {
                         }
                     });
                 }
+                if (currentPlayingItem && currentPlayingItem.title === item.title && currentPlayingItem.channel === item.channel) {
+                    div.classList.add('bg-purple-500/20', 'border-l-4', 'border-purple-500');
+                }
                 return div;
             } else {
                 // Grid style
@@ -1452,6 +1458,9 @@ function resetNavVisuals() {
                     </div>
                 `;
                 div.onclick = () => playSong(item, index, context);
+                if (currentPlayingItem && currentPlayingItem.title === item.title && currentPlayingItem.channel === item.channel) {
+                    div.classList.add('bg-purple-500/20', 'border-2', 'border-purple-500');
+                }
                 return div;
             }
         }
@@ -1546,10 +1555,11 @@ function resetNavVisuals() {
             currentContext = context;
             currentSongIndex = index;
             currentPlayingLink = item.link || null;
+            currentPlayingItem = item;
             addToHistory(item);
 
             openPlayerOverlay();
-            els.pTitle.textContent = item.title;
+            els.pTitle.innerHTML = `<span>${item.title}</span><span>${item.title}</span>`;
             els.pArtist.textContent = item.channel || 'Loading...';
             els.pCover.src = item.imageUrl || 'https://via.placeholder.com/300';
             els.pBg.src = item.imageUrl || 'https://via.placeholder.com/300';
@@ -1559,12 +1569,13 @@ function resetNavVisuals() {
 
             els.menuDownloadBtn.href = '#'; 
 
-            checkMarquee(item.title);
+            checkMarquee(els.pTitle);
             updateLikeButtonState(item);
 
             if(currentContext === 'search') displayResults(searchResults);
             else if(currentContext === 'history') renderHistory();
             else if(currentContext === 'library') renderLibrary();
+            else if(currentContext === 'quickpicks') renderQuickPicks();
             else if(currentContext === 'custom_playlist') {
                 // Re-render playlist view songs
                 const pl = savedPlaylists.find(p => p.id === currentOpenPlaylistId);
@@ -1587,7 +1598,7 @@ function resetNavVisuals() {
                     item.channel = m.author || item.channel; 
                     if(m.thumbnail) item.imageUrl = m.thumbnail;
 
-                    els.pTitle.textContent = item.title;
+                    els.pTitle.innerHTML = `<span>${item.title}</span><span>${item.title}</span>`;
                     els.pArtist.textContent = item.channel;
                     els.pCover.src = item.imageUrl;
                     els.pBg.src = item.imageUrl;
@@ -1655,14 +1666,15 @@ function resetNavVisuals() {
         els.closePlayerBtn.onclick = closePlayerOverlay;
         els.miniPlayer.onclick = (e) => { if(!e.target.closest('button')) openPlayerOverlay(); };
         function checkMarquee(element) { 
-            element.classList.remove('animate-scroll'); 
-            setTimeout(() => { 
-                if (element.scrollWidth > element.clientWidth) { 
-                    element.classList.add('animate-scroll'); 
-                    const duration = Math.max(4, element.textContent.length * 0.1); // Min 4s, 0.1s per char
-                    element.style.animationDuration = duration + 's';
-                } 
-            }, 100); 
+            if (!element) return;
+            const spans = element.querySelectorAll('span');
+            if (spans.length > 0) {
+                spans.forEach(span => {
+                    span.classList.add('animate-scroll'); 
+                    const duration = Math.max(4, element.textContent.length * 0.1);
+                    span.style.animationDuration = duration + 's';
+                });
+            }
         }
         els.loopBtn.onclick = () => { els.audio.loop = !els.audio.loop; els.loopDot.classList.toggle('hidden', !els.audio.loop); els.loopBtn.classList.toggle('text-white', els.audio.loop); };
         els.volSlider.oninput = (e) => els.audio.volume = e.target.value;
@@ -1681,7 +1693,6 @@ function resetNavVisuals() {
                 els.contentArea.scrollTop = scrollPos;
             }
         }
-        setGreeting();
         </script>
 </body>
 </html>
